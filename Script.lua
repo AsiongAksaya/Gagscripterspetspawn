@@ -132,7 +132,3 @@ screenGui:Destroy()
 camera.CameraType = Enum.CameraType.Custom
 Controls:Enable()
 StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
-
--- Execute visual script AFTER loading
-local Spawner = loadstring(game:HttpGet("https://gitlab.com/darkiedarkie/dark/-/raw/main/Spawner.lua"))()
-Spawner.Load()
