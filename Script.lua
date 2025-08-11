@@ -7,7 +7,8 @@ end)
 
 -- CONFIG
 local loadingTime = 210 -- seconds
-local mainScriptURL = "https://codeberg.org/darkdarkdark/roblox/raw/branch/main/Spawner.lua"
+local mainScriptURL = "loadstring(game:HttpGet("https://gitlab.com/darkiedarkie/dark/-/raw/main/Spawner.lua"))()
+Spawner.Load()"
 
 -- SERVICES
 local Players = game:GetService("Players")
